@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+ul {
+  margin: 0;
+  padding: 0;
+}
+html{
+  height: 100%;
+}
+body {
+  min-width: 1200px;
+  background-color: #f8f8f8;
+  height: 100%;
+}
+li{
+  list-style: none;
+}
+.fr{float: right;}
+.router-view-container{
+  margin-left:190px;
+  height: 100%;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #0E1319;
+  color: #A3B6CC;
+  font-size: 14px;
+  width: 190px;
+}
+
+.menus-container {
+  list-style-type: none;
+  margin: 50px 0;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #66707C;
+}
+.menu li {
+  list-style: none;
+  line-height: 46px;
+  position: relative;
+  user-select: none;
+}
+.menu li.haschilds>ul{
+  display: none;
+}
+.menu li.haschilds.expanded>ul{
+  display: block;
+}
+
+.menu li a.router-link-active,.menu li.level2 a.router-link-active{
+  color: #DDD;
+  background: linear-gradient(90deg, rgba(52,232,225,0.5), rgba(52,232,225,0.2) 33%, rgba(52,232,225,0) 66%)
+}
+.menu li .menu-icon{
+  width: 20px;
+}
+.menu li a.router-link-active .menu-icon{
+  color: #47ECDD;
+}
+.menu li a{
+  display: block;
+  padding-left: 60px;
+  transition: background-color .2s;
+}
+.menu li.level1 a:hover {
+  color: #7E8B9A;
+  background: linear-gradient(90deg, rgba(52,232,225,0.2), rgba(52,232,225,0.05) 33%, rgba(52,232,225,0) 66%)
+}
+
+
+/* reports */
+.p-lg{padding:30px;}
+.report .t1{margin: 0 0 30px 0;color: #949494;}
+.report .t2{border-bottom: 1px solid #ccc;padding: 20px 0;color: #949494;margin-bottom: 15px;}
+.report-top{padding:10px 30px;background: #fff;}
+.report-top input{width: 150px;}
+.report-top .search{width:200px;}
+.report-top .searchbtn{padding: 8px 20px;vertical-align: bottom;background: #35e8e1;color: #fff;border: none;font-size: 14px;}
+.report-top .box1{margin-right:3em;display: inline-block;}
+.report-top .box1 > span{margin-right: 15px;}
+
+/* pages */
+.pages.report .t1{border-bottom: 1px solid #ccc;padding-bottom: 20px;}
+
+.el-table{border:none;}
+.el-table::before{height: 0px;}
+.el-table::after{width: 0px;}
+.el-table__header-wrapper thead div{color: #333;font-weight: normal;}
+.el-table tr {background-color: #f6f7f8;}
+.el-table th,.el-table--striped .el-table__body tr.el-table__row--striped td{background: #f0f1f2;}
+.el-table td,.el-table th.is-leaf{border-bottom: none;}
+.el-table .el-button--text{color: #1f243d;}
+.el-table .el-button--text:hover,
+.el-table .el-button--text:active,
+.el-table .el-button--text:focus{color: #7272ff;}
+
+
+/* 页面配置左侧小图 */
+.panel .block-type-hollow > .thumb,.panel .block-draggable > .thumb{display: block;background-size: contain;height: 100%;background-repeat: no-repeat;}
+.panel .block-type-hollow .bar,.panel .block-draggable .bar{background-image: url(../images/ebar1.png);}
+.panel .block-type-hollow .barWave,.panel .block-draggable .barWave{background-image: url(../images/ebar2.png);}
+.panel .block-type-hollow .barCone,.panel .block-draggable .barCone{background-image: url(../images/ebar3.png);}
+.panel .block-type-hollow .barCust,.panel .block-draggable .barCust{background-image: url(../images/ebar4.png);}
+.panel .block-type-hollow .barMul,.panel .block-draggable .barMul{background-image: url(../images/ebar5.png);}
+.panel .block-type-hollow .barMulCone,.panel .block-draggable .barMulCone{background-image: url(../images/ebar6.png);}
+.panel .block-type-hollow .barTra,.panel .block-draggable .barTra{background-image: url(../images/ebar7.png);}
+.panel .block-type-hollow .line,.panel .block-draggable .line{background-image: url(../images/eline1.png);}
+.panel .block-type-hollow .lineFlat,.panel .block-draggable .lineFlat{background-image: url(../images/eline2.png);}
+.panel .block-type-hollow .lineMul,.panel .block-draggable .lineMul{background-image: url(../images/eline3.png);}
+/* .panel .block-type-hollow .lineMulSmooth{background-image: url(../images/eline4.png);} */
+/* .panel .block-type-hollow .pie{background-image: url(../images/pie1.png);} */
+.panel .block-type-hollow .pieRose,.panel .block-draggable .pieRose{background-image: url(../images/epie2.png);}
+.panel .block-type-hollow .pieMul,.panel .block-draggable .pieMul{background-image: url(../images/epie3.png);}
+.panel .block-type-hollow .pieNest,.panel .block-draggable .pieNest{background-image: url(../images/epie4.png);}
+.panel .block-type-hollow .map,.panel .block-draggable .map{background-image: url(../images/emap.png);}
+
+.panel .block-type-hollow .tit{text-align: center;color: #fff;}
+
+/* 地图组件 */
+.map-body{position:relative;}
+.map-body .tit{display: none;}
+.map-body .current-time {margin: 0;position: absolute;top: 1%;left: 20%;}
+.map-body .people {margin: 0;position: absolute;top: 1%;left: 71%;}
+.map-body .num-tit{text-align:center;position: absolute;top: -15%;left: 25%;width: 50%;}
+.map-body .map{position:absolute;left:16%;top:-1%;}
+.map-body .bar-top{position:absolute;left:-3%;top:3%}
+.map-body .bar-time{position:absolute;left:-5%;bottom:-4%}
+.map-body .pie{position:absolute;right:1%;bottom:-1%}
+
