@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-柱状</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script> 
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 510px;height:245px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+        var option = {
+  		    xAxis: {
+  		    	axisLine:{ //去除轴线
+              lineStyle: {
+                width:2,
+                color: new echarts.graphic.LinearGradient(
+                    0, 0, 1, 0,
+                [
+                    {offset: 1, color: '#1d2846'},
+                    {offset: 0.5, color: '#0b859a'},
+                    {offset: 0, color: '#1d2846'}
+                ])
+              }
+  	        },
+  		    	axisTick: {show: false},
+		        axisLabel: {
+                    textStyle: {
+                        color: '#a6a6cc'
+                    }
+                },
+		        data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+  		    },
+  		    yAxis: {
+            name: '单位：万',
+            color: '#a6a6cc',
+            splitLine: {show: false},
+            axisTick: {show: false},
+		        axisLabel: {
+                textStyle: {
+                    color: '#a6a6cc'
+                }
+            },
+            axisLine:{ //去除轴线
+              lineStyle: {
+                width:2,
+                color: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                [
+                    {offset: 1, color: '#1d2846'},
+                    {offset: 0.5, color: '#0b859a'},
+                    {offset: 0, color: '#1d2846'}
+                ])
+              }
+            },
+  		    },
+          color: ['#091135'],
+  		    grid: {
+  		    	x:50,
+  		    },
+  		    tooltip: {},
+  		    series: [{
+  		        type: 'pictorialBar',
+  		        symbol: 'path:// M240,88 l25,-2 l25,2 l-25,2 l-25,-2z M240,88 c0,0 0,60 -0,60 c1,0 25,2 25,2 c1,0 -1,-60 -0,-60 c1,0 -25,-2,-25,-2z M290,88 c0,0 0,60 0,60 c1,0 -25,2 -25,2 c0,0 0,-60 0,-60 c0,0 25,-2 25,-2z',
+              itemStyle:{
+                  borderColor:'#04a4b0',
+              },
+              label: {
+                  normal: {
+                      textStyle: {
+                          fontSize:8,
+                      }
+                  }
+              },
+              barCategoryGap: '60%',
+              symbolOffset: [0, -8],
+  		        data: [300, 350, 320, 325, 380,280,450,300,310,290,310,330],
+  		    }],
+  		  };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

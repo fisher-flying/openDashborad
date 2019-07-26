@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-折线</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 292px;height:168px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+
+        var option = {
+          textStyle: {
+              color: '#414957',
+          },
+          tooltip : {
+              trigger: 'axis',
+              axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                  type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+              }
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          legend: {
+              icon: 'rect',
+              itemWidth: 10,
+              itemHeight: 10,
+              right: '1%',
+              textStyle: {
+                color: '#414957',
+                fontSize: '12'
+              },
+              data:['IOS','Android','PC']
+          },
+          xAxis : [
+              {
+                  type : 'category',
+                  axisTickaxisTick: {show: false}
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value'
+              }
+          ],
+          series : [
+            {
+                symbol: "none",
+                name: 'IOS',
+                type: 'line',
+                areaStyle: {normal: {}},
+                smooth: true,
+                itemStyle: {
+                  normal: {
+                    color: '#2b76eb',
+                    textStyle: {
+                        color: '#7377a6',
+                    }
+                  }
+                },
+                data: [10000, 20000, 60000, 50000, 13000,32000],
+
+            },
+            {
+                symbol: "none",
+                name: 'Android',
+                type: 'line',
+                areaStyle: {normal: {}},
+                smooth: true,
+                itemStyle: {
+                  normal: {
+                    color: '#279de5',
+                    textStyle: {
+                        color: '#7377a6',
+                    }
+                  }
+                },
+                data: [30000, 13000, 32000,50000, 80000,10000],
+            },
+            {
+                symbol: "none",
+                name: 'PC',
+                type: 'line',
+                areaStyle: {normal: {}},
+                smooth: true,
+                itemStyle: {
+                  normal: {
+                    color: '#302979',
+                    textStyle: {
+                        color: '#7377a6',
+                    }
+                  }
+                },
+                data: [30000, 12000, 13000, 40000, 50000,60000],
+            }
+        ]
+      };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

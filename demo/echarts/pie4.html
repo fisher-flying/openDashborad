@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-饼图</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 297px;height:168px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+
+        var option = {
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {d}%"
+            },
+            legend: {
+              icon: 'rect',
+              itemWidth: 10,
+              itemHeight: 10,
+              right: 'right',
+              textStyle: {
+                color: '#414957',
+                fontSize: '14'
+              },
+              data: ['题库1','题库2','题库3','题库4','题库5','题库6']
+          },
+            series : [
+                {
+                    name: '类目',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['40%', '50%'],
+                    data:[
+                        {value:15, name:'题库1',itemStyle: {normal:{color: '#3568a9'}}},
+                        {value:20, name:'题库2',itemStyle: {normal:{color: '#2575fe'}}},
+                        {value:10, name:'题库3',itemStyle: {normal:{color: '#7ba2cb'}}},
+                        {value:35, name:'题库4',itemStyle: {normal:{color: '#3992d4'}}},
+                        {value:5, name:'题库5',itemStyle: {normal:{color: '#2774ff'}}},
+                        {value:15, name:'题库6',itemStyle: {normal:{color: '#84b1d8'}}},
+                    ],
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

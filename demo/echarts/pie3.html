@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-环形</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 292px;height:168px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+        var color= ['#23cfdb', '#228ae9','#37319f', '#9c2af3','#21d246','#099e5e','#fc4468','#fd5d43'];
+        var dataStyle = {
+            normal: {
+                label: {
+                    show: false
+                },
+                labelLine: {
+                    show: false
+                },
+                shadowBlur: 40,
+                borderWidth: 8,
+                shadowColor: 'rgba(0, 0, 0, 0)' //边框阴影
+            }
+        };
+        var placeHolderStyle = {
+            normal: {
+                color: '#393d50',
+                label: {
+                    show: false
+                },
+                labelLine: {
+                    show: false
+                }
+            },
+            emphasis: {
+                color: '#393d50'
+            }
+        };
+        option = {
+            backgroundColor: '#1d1a35',
+            tooltip: {
+                trigger: 'item',
+                show: true,
+                formatter: "{b} : <br/>{d}万",
+                backgroundColor: 'rgba(0,0,0,0.7)', // 背景
+                padding: [8, 10], //内边距
+                extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);', //添加阴影
+            },
+            legend: {
+                orient: 'vertical',
+                icon: 'circle',
+                right: 'right',
+                top: 'bottom',
+                itemGap:5,
+                data: ['微信', '微博', 'QQ', '用户名'],
+                textStyle: {
+                    color: '#a4a5c9'
+                }
+            },
+            series: [{
+                    name: 'Line 1',
+                    type: 'pie',
+                    clockWise: false,
+                    radius: [64, 74],
+                    center:['50%','50%'],
+                    itemStyle: dataStyle,
+                    hoverAnimation: false,
+                    startAngle: 90,
+                    label:{
+                        borderRadius:'10',
+                    },
+                    data: [{
+                            value: 75,
+                            name: '微信',
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color:color[0]
+                                    }, {
+                                        offset: 1,
+                                        color: color[1]
+                                    }])
+                                }
+                            }
+                        },
+                        {
+                            value: 45.4,
+                            name: '',
+                            tooltip: {
+                                show: false
+                            },
+                            itemStyle: placeHolderStyle
+                        },
+                    ]
+                },
+                {
+                    name: 'Line 2',
+                    type: 'pie',
+                    clockWise: false,
+                    radius: [48, 58],
+                    center:['50%','50%'],
+                    itemStyle: dataStyle,
+                    hoverAnimation: false,
+                    startAngle: 90,
+                    data: [{
+                            value: 56.7,
+                            name: '微博',
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: color[2]
+                                    }, {
+                                        offset: 1,
+                                        color: color[3]
+                                    }])
+                                }
+                            }
+                        },
+                        {
+                            value: 43.3,
+                            name: '',
+                            tooltip: {
+                                show: false
+                            },
+                            itemStyle: placeHolderStyle
+                        },
+                    ]
+                },
+                {
+                    name: 'Line 3',
+                    type: 'pie',
+                    clockWise: false,
+                    radius: [32, 42],
+                    center:['50%','50%'],
+                    itemStyle: dataStyle,
+                    hoverAnimation: false,
+                    startAngle: 90,
+                    data: [{
+                            value: 30,
+                            name: 'QQ',
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: color[4]
+                                    }, {
+                                        offset: 1,
+                                        color: color[5]
+                                    }]),
+                                }
+                            }
+                        },
+                        {
+                            value: 30,
+                            name: '',
+                            tooltip: {
+                                show: false
+                            },
+                            itemStyle: placeHolderStyle
+                        },
+                    ]
+                },
+                {
+                    name: 'Line 4',
+                    type: 'pie',
+                    clockWise: false,
+                    radius: [16, 26],
+                    center:['50%','50%'],
+                    itemStyle: dataStyle,
+                    hoverAnimation: false,
+                    startAngle: 90,
+                    data: [{
+                            value: 30,
+                            name: '用户名',
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: color[6]
+                                    }, {
+                                        offset: 1,
+                                        color: color[7]
+                                    }]),
+                                }
+                            }
+                        },
+                        {
+                            value: 50,
+                            name: '',
+                            tooltip: {
+                                show: false
+                            },
+                            itemStyle: placeHolderStyle
+                        },
+                    ]
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

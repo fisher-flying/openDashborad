@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8, IE=9, IE=10, chrome=1" />
+<meta name="renderer" content="webkit" />
+<script>
+window.onload=function() {
+    debugger
+	var LOG_DOMAIN_URL = 'http://192.168.33.147:8091'
+	var SSO_DOMAIN_URL =  'http://books123456789.ipmph.com/newsso'
+	var COOKIE_LOGINTIME="SSO_LST_";
+
+	var _accessFromCode = { 'Front': 1, 'Manager': 2, 'APIMethod': 3, 'App': 4, 'Baidu': 8, 'Douban': 9, 'MpWechat': 10, 'QQ': 11, 'QQUnion': 12, 'TQQ': 13, 'Wechat': 14, 'Weibo': 15, 'WXUnionID': 16, 'ZAS': 17 }
+	// 浏览器cookie未开启时，直接返回
+    if (!navigator.cookieEnabled) {
+      return 0;
+    }
+	var queryData=parseQuery();
+	var requestData=queryData['splicingParams'];
+	var loginTime=getLoginTime();
+	jsonp(SSO_DOMAIN_URL + '/appInfo', {domain:queryData["domain"]}, function (res) {
+		if(res&&res.Code){
+			requestData.code=res.Code;
+			requestData.clientId=res.ClientId;
+			postLog();
+		}
+	})
+	function postLog(){
+		if(queryData.Time==loginTime){
+			//已经回传过登录，回传授权
+			jsonp(LOG_DOMAIN_URL + '/api/log/html/authorize', requestData, function (res) {
+				if (res && res.status === 1) {
+					window.location.href="about:blank";
+				} else {
+					window.console && console.error(res)
+				}
+			})
+		}else{
+			//没有回传过登录
+			if(queryData["firstLogin"]=="true"){
+				//如果是第一次登录，先回传注册日志
+				jsonp(LOG_DOMAIN_URL + '/api/log/html/regist', requestData, function (res) {
+					if (res && res.status === 1) {
+						//回传完成，再回传登录日志
+						jsonp(LOG_DOMAIN_URL + '/api/log/html/login', requestData, function (res) {
+							if (res && res.status === 1) {
+								setLoginTime(queryData.Time);
+								window.location.href="about:blank";
+							} else {
+								window.console && console.error(res);
+							}
+						});
+					} else {
+						window.console && console.error(res);
+					}
+				})
+			}else{
+				//如果不是第一次登录，仅回传登录日志
+				jsonp(LOG_DOMAIN_URL + '/api/log/html/login', requestData, function (res) {
+					if (res && res.status === 1) {
+						setLoginTime(queryData.Time);
+						window.location.href="about:blank";
+					} else {
+						window.console && console.error(res);
+					}
+				});
+			}
+		}
+	}
+    function getLoginTime(){
+	    var _cookie = document.cookie.replace(/[ ]/g, '');  // 获取cookie，并且将获得的cookie格式化，去掉空格字符
+        var _cookie_ary = _cookie.split(';');  // 将获得的cookie以"分号"为标识 将cookie保存到arrCookie的数组中
+        for (var i = 0; i < _cookie_ary.length; i++) {   // 使用for循环查找cookie中的tips变量
+            var arr = _cookie_ary[i].split('=');   // 将单条cookie用"等号"为标识，将单条cookie保存为arr数组
+            if (COOKIE_LOGINTIME === arr[0]) {  // 匹配变量名称，其中arr[0]是指的cookie名称，如果该条变量为tips则执行判断语句中的赋值操作
+                return arr[1];   // 将cookie的值赋给变量tips
+            }
+        }
+	    return 0;
+    }
+    function setLoginTime(time){
+        document.cookie = COOKIE_LOGINTIME + '=' + time + ';path=/';
+    }
+   
+};
+
+
+	
+function parseQuery(){
+	var result={};
+	var queryString=location.href.split('?')[1];
+	var aryPms=queryString.split("&");
+	for(var i=0;i<aryPms.length;i++){
+		var itemAry=aryPms[i].split("=");
+		if(itemAry.length>1){
+			result[itemAry[0]]=itemAry[1];
+		}
+	}
+	if(result["splicingParams"]){
+		result["splicingParams"]=JSON.parse(decodeURIComponent(result["splicingParams"]));
+	}
+	return result;
+}
+
+
+var seq = +(new Date());
+// 通过jsonp跨域请求后端接口，注意query中传递回调函数名的参数总是为callback
+var jsonp = function (url, data, onsuccess) {
+    if (typeof data === 'function') {
+        onsuccess = data;
+        data = null;
+    }
+    var funName = '_jsonp' + seq++;
+    window[funName] = function (data) {
+        if (onsuccess) {
+            onsuccess(data);
+        }
+        window[funName] = null;
+    }
+    url += (url.indexOf('?') !== -1 ? '&' : '?') + 'callback=' + funName;
+    if (data) {
+        if (typeof data === 'object') {
+            for (var k in data) {
+                if (data.hasOwnProperty(k)) {
+                    url += '&' + k + '=' + encodeURIComponent(data[k]);
+                }
+            }
+        } else {
+            url += String(data);
+        }
+    }
+    var s = document.createElement('script');
+    s.setAttribute('src', url);
+    var head = document.head || document.documentElement;
+    head.appendChild(s);
+}	
+</script>
+</head>
+<body>
+</body>
+</html>

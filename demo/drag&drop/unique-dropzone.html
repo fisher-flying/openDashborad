@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-scroll-lock="false">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Droppable | Unique dropzone | Draggable JS Examples</title>
+  <link rel="stylesheet" href="assets/css/examples-app.css?beta=6">
+  <script src="assets/js/examples-runtime.js?beta=6" defer="defer"></script>
+  <script src="assets/js/examples-vendor.js?beta=6" defer="defer"></script>
+  <script src="assets/js/examples-app.js?beta=6" defer="defer"></script>
+</head>
+
+<body id="PageUniqueDropzone">
+  <button type="button" id="MobileNavActivator" class="Hamburger" aria-controls="Sidebar" aria-expanded="false">
+    <div class="HamburgerBun">
+      <div class="HamburgerPatty"></div>
+    </div>
+  </button>
+  <aside id="Sidebar" class="Sidebar" aria-hidden="true">
+    <nav class="Navigation">
+      <ul class="NavList">
+        <li class="NavItem">
+          <span class="NavHeading">Draggable</span>
+        </li>
+        <li class="NavItem">
+          <a href="drag-events.html" class="NavLink" title="See example: Drag events">Drag events</a>
+        </li>
+        <li class="NavItem">
+          <span class="NavLink">Restrict axis</span>
+        </li>
+      </ul>
+      <ul class="NavList NavList--isCurrent">
+        <li class="NavItem">
+          <span class="NavHeading">Droppable</span>
+        </li>
+        <li class="NavItem">
+          <a href="unique-dropzone.html" class="NavLink NavLink--isCurrent" title="See example: Unique dropzone">Unique dropzone</a>
+        </li>
+        <li class="NavItem">
+          <span class="NavLink">Capacity</span>
+        </li>
+      </ul>
+      <ul class="NavList">
+        <li class="NavItem">
+          <span class="NavHeading">Sortable</span>
+        </li>
+        <li class="NavItem">
+          <a href="simple-list.html" class="NavLink" title="See example: Simple list">Simple list</a>
+        </li>
+        <li class="NavItem">
+          <a href="transformed.html" class="NavLink" title="See example: Transformed">Transformed</a>
+        </li>
+        <li class="NavItem">
+          <a href="multiple-containers.html" class="NavLink" title="See example: Multiple containers">Multiple containers</a>
+        </li>
+        <li class="NavItem">
+          <span class="NavLink">Nested</span>
+        </li>
+      </ul>
+      <ul class="NavList">
+        <li class="NavItem">
+          <span class="NavHeading">Swappable</span>
+        </li>
+        <li class="NavItem">
+          <a href="flexbox.html" class="NavLink" title="See example: Flexbox">Flexbox</a>
+        </li>
+        <li class="NavItem">
+          <a href="floated.html" class="NavLink" title="See example: Floated">Floated</a>
+        </li>
+        <li class="NavItem">
+          <a href="grid-layout.html" class="NavLink" title="See example: Grid layout">Grid layout</a>
+        </li>
+      </ul>
+      <ul class="NavList">
+        <li class="NavItem">
+          <span class="NavHeading">Plugins</span>
+        </li>
+        <li class="NavItem">
+          <a href="collidable.html" class="NavLink" title="See example: Collidable">Collidable</a>
+        </li>
+        <li class="NavItem">
+          <a href="snappable.html" class="NavLink" title="See example: Snappable">Snappable</a>
+        </li>
+        <li class="NavItem">
+          <span class="NavLink">Swap Animation</span>
+        </li>
+      </ul>
+    </nav>
+    <footer class="SidebarFooter">
+      <p class="LegalText">
+        <a href="https://shopify.github.io/draggable/" class="Link Link--typeDark" title="Visit Draggable JS">draggable.js</a> was developed by
+        <a href="https://github.com/tsov" class="Link Link--noWrap" title="Github: tsov">Max Hoffmann</a> and
+        <a href="https://github.com/beefchimi" class="Link Link--noWrap" title="Github: beefchimi">Curtis Dulmage</a>.</p>
+      <p class="LegalText">Draggable is released under the
+        <a href="https://github.com/Shopify/shopify.github.com/blob/master/LICENSE.md" class="Link Link--noWrap"
+          title="View MIT License" target="_blank" rel="noopener">MIT license</a>. You are free to use the code from this library for both personal and commercial use.</p>
+      <p class="preload-cursors">
+        <b>Special thanks</b>
+        <u>to all of our</u>
+        <a href="https://github.com/Shopify/draggable/graphs/contributors" title="We love our contributors!">amazing contributors</a>.</p>
+    </footer>
+  </aside>
+  <main class="Main" role="main">
+    <div class="MainInterior">
+      <header class="PageHeader">
+        <h1 class="Heading Heading--size1">Droppable</h1>
+        <h2 class="Subheading">Dropzones are intended to hold only one Droppable child. This example restricts each Droppable item to a specific
+          Dropzone identifier.</h2>
+        <a href="https://github.com/Shopify/draggable/tree/master/examples/src/content/Droppable/UniqueDropzone"
+          class="Link Link--typeUnderlined" title="See this code example">View code on GitHub</a>
+      </header>
+      <section id="UniqueDropzone" class="UniqueDropzone">
+        <article class="BlockLayout BlockLayout--typeFlex">
+          <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="1">
+            <span class="Block Block--typeHollow">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">one</h3>
+              </div>
+            </span>
+            <a href="#" class="Block Block--item1 Block--isDraggable" title="Click to drag">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">one</h3>
+                <div class="Pattern Pattern--typeHalftone"></div>
+                <div class="Pattern Pattern--typePlaced"></div>
+              </div>
+            </a>
+          </div>
+          <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="2">
+            <span class="Block Block--typeHollow">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">two</h3>
+              </div>
+            </span>
+            <a href="#" class="Block Block--item2 Block--isDraggable" title="Click to drag">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">two</h3>
+                <div class="Pattern Pattern--typeHalftone"></div>
+                <div class="Pattern Pattern--typePlaced"></div>
+              </div>
+            </a>
+          </div>
+          <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="4">
+            <span class="Block Block--typeHollow">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">four</h3>
+              </div>
+            </span>
+            <a href="#" class="Block Block--item4 Block--isDraggable" title="Click to drag">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">four</h3>
+                <div class="Pattern Pattern--typeHalftone"></div>
+                <div class="Pattern Pattern--typePlaced"></div>
+              </div>
+            </a>
+          </div>
+          <div class="BlockWrapper BlockWrapper--isDropzone draggable-dropzone--occupied" data-dropzone="8">
+            <span class="Block Block--typeHollow">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">eight</h3>
+              </div>
+            </span>
+            <a href="#" class="Block Block--item8 Block--isDraggable" title="Click to drag">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">eight</h3>
+                <div class="Pattern Pattern--typeHalftone"></div>
+                <div class="Pattern Pattern--typePlaced"></div>
+              </div>
+            </a>
+          </div>
+        </article>
+        <article class="BlockLayout BlockLayout--typeGrid">
+          <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="1">
+            <span class="Block Block--typeStripes">
+              <div class="BlockContent"></div>
+            </span>
+          </div>
+          <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="2">
+            <span class="Block Block--typeStripes">
+              <div class="BlockContent"></div>
+            </span>
+          </div>
+          <div class="BlockWrapper">
+            <span class="Block Block--typeShell Block--item3">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">three</h3>
+              </div>
+            </span>
+          </div>
+          <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="4">
+            <span class="Block Block--typeStripes">
+              <div class="BlockContent"></div>
+            </span>
+          </div>
+          <div class="BlockWrapper">
+            <span class="Block Block--typeShell Block--item5">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">five</h3>
+              </div>
+            </span>
+          </div>
+          <div class="BlockWrapper">
+            <span class="Block Block--typeShell Block--item6">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">six</h3>
+              </div>
+            </span>
+          </div>
+          <div class="BlockWrapper">
+            <span class="Block Block--typeShell Block--item7">
+              <div class="BlockContent">
+                <h3 class="Heading Heading--size2 text-no-select">seven</h3>
+              </div>
+            </span>
+          </div>
+          <div class="BlockWrapper BlockWrapper--isDropzone" data-dropzone="8">
+            <span class="Block Block--typeStripes">
+              <div class="BlockContent"></div>
+            </span>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+  <div class="GridOverlay GridOverlay--isHidden"></div>
+</body>
+
+</html>

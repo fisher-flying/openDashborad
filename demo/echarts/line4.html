@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-折线</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 285px;height:168px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+
+        var option = {
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2018.01', '2018.02', '2018.03', '2018.04', '2018.05', '2018.06', '2018.07']
+            },
+            yAxis: {
+                type: 'value',
+                splitLine: {
+                    lineStyle: {
+                        color: '#302f53 ',
+                    }
+                  }
+            },
+            series: [{
+                symbol: "none",
+                data: [4.1, 5.5, 3.0, 4.3, 5.5, 10, 9.3],
+                type: 'line',
+                itemStyle: {
+                  normal: {
+                    color: '#279de5',
+                    textStyle: {
+                        color: '#7377a6',
+                    }
+                  }
+                },
+                lineStyle: {
+                    width: 4 ,
+                    color: '#0ab4cb'
+                },
+                areaStyle: {}
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-柱状</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 260px;height:240px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+        var option = {
+		    xAxis: {
+		    	axisLine:{ //去除轴线
+		            show:false
+		        },
+		    	axisTick: {//去除刻度线
+		            show: false
+		        },
+		        axisLabel: {
+                        color: '#a4a5c9'
+                },
+		        data: ["考试","题库","电子书","慕课","增值"]
+		    },
+		    yAxis: {
+		    	axisLine:{
+		            show:false
+		        },
+		        axisTick: {
+		            show: false
+		        },
+		        axisLabel: {
+                        color: '#a4a5c9'
+                },
+		    },
+		    grid: {
+		    	x:50,
+		    },
+		    tooltip: {},
+		    series: [{
+		        type: 'pictorialBar',
+		        symbol: 'path://M0,10 L10,10 C6.5,10 7,0 5,0 C3,0 3.5,10 0,10 z',
+		        data: [70000, 50000, 60016, 95000, 52000],
+		        //配置样式
+		        itemStyle: {
+		            normal:{
+		                color: function (params){
+		                    var colorList = [];
+		                    colorList[0] = new echarts.graphic.LinearGradient(
+	                        	0, 0, 0, 1,
+	                        [
+	                            {offset: 1, color: '#14bc88'},
+	                            {offset: 0.5, color: '#26cd7f'},
+	                            {offset: 0, color: '#3bdb6f'}
+	                        ]);
+		                    colorList[1] = new echarts.graphic.LinearGradient(
+	                        	0, 0, 0, 1,
+	                        [
+	                            {offset: 1, color: '#6c77ea'},
+	                            {offset: 0.5, color: '#46a8f1'},
+	                            {offset: 0, color: '#40d6e4'}
+	                        ]);
+	                        colorList[2] = new echarts.graphic.LinearGradient(
+	                        	0, 0, 0, 1,
+	                        [
+	                            {offset: 1, color: '#605bd9'},
+	                            {offset: 0.5, color: '#8955e6'},
+	                            {offset: 0, color: '#bc4cf8'}
+	                        ]);
+	                        colorList[3] = new echarts.graphic.LinearGradient(
+	                        	0, 0, 0, 1,
+	                        [
+	                            {offset: 1, color: '#fd6da0'},
+	                            {offset: 0.5, color: '#fe6c6f'},
+	                            {offset: 0, color: '#fd8670'}
+	                        ]);
+	                        colorList[4] = new echarts.graphic.LinearGradient(
+	                        	0, 0, 0, 1,
+	                        [
+	                            {offset: 1, color: '#ff604d'},
+	                            {offset: 0.5, color: '#fe984d'},
+	                            {offset: 0, color: '#ffd64c'}
+	                        ]);
+		                  	return colorList[params.dataIndex];
+		                }
+		            },
+		        },
+		    }],
+		};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-饼图</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 297px;height:168px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+
+        option = {
+            tooltip : {
+                trigger: 'item',
+                formatter: "{b} : {c} ({d}%)"
+            },
+            series : [
+                {
+                    type:'pie',
+                    radius : '80%',
+                    center : ['50%', '50%'],
+                    roseType : 'radius',
+                    label: {
+                        normal: {
+                            textStyle: {
+                                fontSize:10,
+                                color: '#8f8fb5'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: '#474272'
+                            },
+                            length: 10,
+                            length2: 30
+                        }
+                    },
+                            itemStyle: {   
+                        normal:{  
+                            color: function (params){
+                                var colorList = [];
+                                colorList[0] = new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 1, color: '#5c5dc9'},
+                                    {offset: 0.5, color: '#6e59de'},
+                                    {offset: 0, color: '#bb4cf7'}
+                                ]);
+                                colorList[1] = new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 1, color: '#fd6da0'},
+                                    {offset: 0.5, color: '#fe6c6f'},
+                                    {offset: 0, color: '#fd8670'}
+                                ]);
+                                colorList[2] = new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 1, color: '#fd5f4d'},
+                                    {offset: 0.5, color: '#ffa74d'},
+                                    {offset: 0, color: '#ffdd4d'}
+                                ]);
+                                colorList[3] = new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 1, color: '#11a978'},
+                                    {offset: 0.5, color: '#27d07b'},
+                                    {offset: 0, color: '#3be26f'}
+                                ]);
+                                colorList[4] = new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 1, color: '#5bffa3'},
+                                    {offset: 0.5, color: '#43f9dc'},
+                                    {offset: 0, color: '#01ddfe'}
+                                ]);
+                                colorList[5] = new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 1, color: '#6c77e9'},
+                                    {offset: 0.5, color: '#41b1f3'},
+                                    {offset: 0, color: '#40e1e9'}
+                                ]);
+                                return colorList[params.dataIndex];
+                            }
+                        },
+                    },
+                    data:[
+                        {value:8, name:'增值'},
+                        {value:12, name:'慕课'},
+                        {value:15, name:'电子书'},
+                        {value:16, name:'题库'},
+                        {value:22, name:'临床知识库'},
+                        {value:25, name:'考试'}
+                    ]
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

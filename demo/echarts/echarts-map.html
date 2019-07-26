@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-地图</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<script type="text/javascript" src="js/china.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+        .cur-user {color:#fff; width: 400px; height: 70px; text-align: center; font-size: 18px; position: absolute; top: 2%; left: 16%; z-index: 3}
+        .cur-user p { float: left; margin: 0;line-height: 30px;}
+        .current-time { font-size: 12px; line-height: 30px;}
+        .current-user-number { float: left; font-size: 36px; line-height: 30px;}
+	</style>
+</head>
+
+<body style="position: relative;width: 600px; height: 500px;">
+    <div id="user" class="cur-user">
+        <svg  class="title" style="width: 400px; height: 20px; margin-bottom: 14px;">
+            <linearGradient id="linearGradientTitle" x1="0" y1="0" x2="0" y2="100%">
+                <stop stop-color="rgb(63,224,232)" offset="0%" />
+                <stop stop-color="rgb(97,105,204)" offset="100%" />
+            </linearGradient>
+            <text text-anchor="left" x="40%" y="50%" dy='.35em' class="linear-gradient-text" fill="url(#linearGradientTitle)"> 实时用户量 </text>
+        </svg>
+        <p id="curTime" class="current-time"></p>
+        <svg class="current-user-number" style="width: auto; height: 30px;">
+            <linearGradient id="linearGradientNumber" x1="0" y1="0" x2="0" y2="100%">
+                <stop stop-color="rgb(255,219,77)" offset="0%" />
+                <stop stop-color="rgb(255,118,77)" offset="100%" />
+            </linearGradient>
+            <text text-anchor="left" x="14%" y="50%" dy='.35em' id="currentUserNumber" class="linear-gradient-text" fill="url(#linearGradientNumber)"> 192,168,542</text>
+        </svg>
+        <p>人</p>
+
+    </div>
+    <div id="map" style="width: 440px; height: 410px; position: absolute; top: 13%; left: 16%; z-index: 1"></div>
+    <div id="increase" style="width: 240px; height: 80px; position: absolute; top: 16%; left: 0%; z-index: 2"></div>
+    <div id="time" style="width: 240px; height: 135px; position: absolute; bottom: 4%; left: 0%; z-index: 2"></div>
+    <div id="province" style="width: 100px; height: 230px; position: absolute; bottom: 10%; right: -1%; z-index: 2"></div>
+    <script type="text/javascript">
+    // 实时用户量更新
+        var myDate = new Date();
+        var curTime = myDate.getTime();
+        function curentTime() {
+            var now = new Date();
+
+            var hh = now.getHours();            // 时
+            var mm = now.getMinutes();          // 分
+            var ss = now.getSeconds();          // 秒
+            var clock = "";
+
+            if(hh < 10) {
+                clock += "0";
+            }
+            clock += hh + ":";
+
+            if (mm < 10) {
+                clock += '0';
+            }
+            clock += mm + ":";
+
+            if (ss < 10) {
+                clock += '0';
+            }
+            clock += ss;
+            setTimeout("curentTime();", 1000)
+            document.getElementById('curTime').innerHTML = clock
+        }
+        curentTime()
+
+    var myChartMap = echarts.init(document.getElementById('map'), 'morning');  // 地图
+    var myChartIncrease = echarts.init(document.getElementById('increase'), 'morning');   // 环比昨日增长
+    var myChartTime = echarts.init(document.getElementById('time'), 'morning');   // 分时用户量
+    var myChartProvince = echarts.init(document.getElementById('province'), 'morning');     // 省分占比
+
+    // 获取数据-地图
+    var dataMap = [{ "name": "北京", "value": 128718 }, { "name": "天津", "value": 93142 }, { "name": "上海", "value": 64020 }, { "name": "重庆", "value": 156100 }, { "name": "河北", "value": 57213 }, { "name": "河南", "value": 102798 }, { "name": "云南", "value": 110711 }, { "name": "辽宁", "value": 16266 }, { "name": "黑龙江", "value": 122143 }, { "name": "湖南", "value": 15014 }, { "name": "安徽", "value": 8436 }, { "name": "山东", "value": 10440 }, { "name": "新疆", "value": 62435 }, { "name": "江苏", "value": 114765 }, { "name": "浙江", "value": 107223 }, { "name": "江西", "value": 67501 }, { "name": "湖北", "value": 59157 }, { "name": "广西", "value": 116110 }, { "name": "甘肃", "value": 197890 }, { "name": "山西", "value": 53454 }, { "name": "内蒙古", "value": 60032 }, { "name": "陕西", "value": 1124 }, { "name": "吉林", "value": 1511 }, { "name": "福建", "value": 69165 }, { "name": "贵州", "value": 1388 }, { "name": "广东", "value": 1829 }, { "name": "青海", "value": 9014 }, { "name": "西藏", "value": 1256 }, { "name": "四川", "value": 183570 }, { "name": "宁夏", "value": 1403 }, { "name": "海南", "value": 1982 }, { "name": "台湾", "value": 1657 }, { "name": "香港", "value": 7730 }, { "name": "澳门", "value": 1857 }]
+
+    // 排序获取 top 值
+    var sortDataMap = dataMap.sort(function (a, b) {
+      return a.value - b.value;
+    });
+    for (var i = 0; i < sortDataMap.length; i++) {
+      sortDataMap[i].top = i + 1;
+    }
+
+    // 省份占比
+    var color = ['#fe6f6d', '#fe7f6d', '#9b51ed', '#b64bf2', '#44aaf3', '#6480eb'];
+    var top1Value = 41, top2Value = 39, top3Value = 30;
+    var dataStyle = {
+      normal: {
+        label: {
+          show: false
+        },
+        labelLine: {
+          show: false
+        },
+        shadowBlur: 40,
+        borderWidth: 8,
+        shadowColor: 'rgba(0, 0, 0, 0)' //边框阴影
+      }
+    };
+    var placeHolderStyle = {
+      normal: {
+        color: '#2c274a',
+        label: {
+          show: false
+        },
+        labelLine: {
+          show: false
+        }
+      },
+      emphasis: {
+        color: '#2c274a'
+      }
+    };
+
+    // 环比昨日增长
+    var xData = [
+        ['今日用户','昨日用户'], // 环比昨日增长
+        ['20-24','15-19','10-14','5-9','0-4'] // 分时用户量
+    ]
+    var dataTotle = [
+        [23, 10], // 环比昨日增长
+        [12, 11, 44, 34, 23] // 分时用户量
+    ]
+
+    // 环行图 tooltip 配置
+    var pieToolTip = {
+      trigger: 'item',
+      show: true,
+      formatter: "{b} : <br/>{d}%",
+      backgroundColor: 'rgba(0,0,0,0.7)', // 背景
+      padding: [8, 10], //内边距
+      extraCssText: 'box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);', //添加阴影
+    }
+    var optionMap = {
+      tooltip: {
+        trigger: 'item',
+        formatter: function (params) {
+          var res = '';
+          var myseries = optionMap.series;
+          for (var i = 0; i < myseries.length; i++) {
+            for (var j = 0; j < myseries[i].data.length; j++) {
+              if (myseries[i].data[j].name == params.name) {
+                res += params.name + '</br> top：' + myseries[i].data[j].top + '</br>' + myseries[i].data[j].value + '人'
+              }
+            }
+          }
+          return res;
+        }
+      },
+
+      // 地图的 visualMap 属性会影响其他图的颜色值,
+      visualMap: {
+        show: true,
+        min: 10000,
+        max: 100000,
+        left: 'center',
+        top: 'bottom',
+        text: ['100000', '0'],
+        itemHeight: 140,
+        itemWidth: 10,
+        textGap: 20,
+        inverse: true,
+        orient: 'horizontal',
+        padding: [5, 10],
+        inRange: {
+          color: ['#24D0DE', '#424BDC']
+        },
+        textStyle: {
+          color: '#a4a5c9'
+        }
+      },
+
+      series: [
+        {
+          type: 'map',
+          map: 'china',
+          zoom: 1.2,
+          zlevel: 1,
+          //roam: true,  // 鼠标缩放
+          data: sortDataMap,
+          label: {
+            normal: {
+              show: false   //是否显示标签。
+            },
+            emphasis: {
+              show: false
+            }
+          },
+          showLegendSymbol: true,
+          itemStyle: {
+            normal: {
+              areaColor: '#6c76e9',  //地图背景色
+              borderColor: '#5360ab'    //省界线颜色
+            },
+            emphasis: {
+              areaColor: '#a150ef'  //鼠标经过时区块颜色
+            }
+          }
+        },
+      ]
+    };
+    var optionIncrease = { // 环比昨日增长
+      tooltip: {
+        trigger: 'item',
+      },
+      grid: {
+        borderWidth: 0,
+        top: 30,
+        left: 75,
+        right: 20,
+        bottom: 10,
+        textStyle: {
+          color: "#fff"
+        }
+      },
+      yAxis: [{
+        axisLabel: {
+          inside: false,
+          textStyle: {
+            color: '#a4a5c9',
+            fontSize: '10',
+          }
+        },
+        axisTick: { show: false },
+        axisLine: { show: false },
+        data: xData[0],
+      }, {
+        type: 'category',
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: false
+        },
+        splitArea: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        },
+      }],
+      xAxis: {
+        type: 'value',
+        interval: 0,
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: '#2f3640',
+          }
+        },
+        splitLine: {
+          show: false,
+          lineStyle: {
+            color: '#2f3640 ',
+          }
+        },
+      },
+      series: [
+        {
+          name: '',
+          type: 'bar',
+          barMaxWidth: '50',
+          itemStyle: {
+            normal: {
+              show: false,
+              color: function (params) {
+                var colorList = [];
+                colorList[0] = new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 1, color: '#40ddea' },
+                    { offset: 0.5, color: '#40b3f3' },
+                    { offset: 0, color: '#5493f0' }
+                  ]);
+                colorList[1] = new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 1, color: '#fe6d9b' },
+                    { offset: 0.5, color: '#fe6d6d' },
+                    { offset: 0, color: '#fe896d' }
+
+                  ]);
+                return colorList[params.dataIndex];
+              },
+              barBorderRadius: 50,
+              borderWidth: 0,
+            },
+            emphasis: {
+              shadowBlur: 15,
+              shadowColor: 'rgba(105,123, 214, 0.7)'
+            }
+          },
+          zlevel: 2,
+          barWidth: '24%',
+          data: dataTotle[0],
+        },
+        {
+          name: '',
+          type: 'bar',
+          zlevel: 1,
+          itemStyle: {
+            normal: {
+              color: '#2a234e', // 修改柱状图后面颜色和背景色一致
+              borderWidth: 0,
+              shadowBlur: {
+                shadowColor: 'rgba(255,255,255,0.31)',
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowOffsetY: 2,
+              },
+            }
+          },
+          barWidth: '24%',
+          data: [0, 0]
+        },
+      ]
+    }
+
+    var optionTime = { // 分时用户量
+      tooltip: {
+        trigger: 'item',
+      },
+      grid: {
+        borderWidth: 0,
+        top: 30,
+        left: 75,
+        right: 20,
+        bottom: 20,
+        textStyle: {
+          color: "#fff"
+        }
+      },
+      yAxis: [{
+        axisLabel: {
+          inside: false,
+          textStyle: {
+            color: '#a4a5c9',
+            fontSize: '10',
+          }
+        },
+        axisTick: { show: false },
+        axisLine: { show: false },
+        data: xData[1],
+      }, {
+        type: 'category',
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: false
+        },
+        splitArea: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        },
+      }],
+      xAxis: {
+        type: 'value',
+        interval: 0,
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: '#2f3640',
+          }
+        },
+        splitLine: {
+          show: false,
+          lineStyle: {
+            color: '#2f3640 ',
+          }
+        },
+      },
+      series: [
+        // 分时用户量
+        {
+          name: '',
+          type: 'bar',
+          barMaxWidth: '50',
+          itemStyle: {
+            normal: {
+              show: false,
+              color: function (params) {
+                var colorList = [];
+                colorList[0] = new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 1, color: '#15e6f5' },
+                    { offset: 0.5, color: '#4cfdd6' },
+                    { offset: 0, color: '#5bffab' }
+                  ]);
+                colorList[1] = new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 1, color: '#bf4bf9' },
+                    { offset: 0.5, color: '#9053e9' },
+                    { offset: 0, color: '#7259df' }
+                  ]);
+                colorList[2] = new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 1, color: '#40ddea' },
+                    { offset: 0.5, color: '#40b3f3' },
+                    { offset: 0, color: '#5493f0' }
+                  ]);
+                colorList[3] = new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 1, color: '#f37504' },
+                    { offset: 0.5, color: '#ffb04d' },
+                    { offset: 0, color: '#ffde4d' }
+                  ]);
+                colorList[4] = new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 1, color: '#fe6d9b' },
+                    { offset: 0.5, color: '#fe6d6d' },
+                    { offset: 0, color: '#fe896d' }
+                  ]);
+                return colorList[params.dataIndex];
+              },
+              barBorderRadius: 50,
+              borderWidth: 0,
+            },
+            emphasis: {
+              shadowBlur: 15,
+              shadowColor: 'rgba(105,123, 214, 0.7)'
+            }
+          },
+          zlevel: 2,
+          barWidth: '28%',
+          data: dataTotle[1],
+        },
+        {
+          name: '',
+          type: 'bar',
+          yAxisIndex: 1,
+          zlevel: 1,
+          itemStyle: {
+            normal: {
+              color: '#2a234e',
+              borderWidth: 0,
+              shadowBlur: {
+                shadowColor: 'rgba(255,255,255,0.31)',
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowOffsetY: 2,
+              },
+            }
+          },
+          barWidth: '28%',
+        }
+      ]
+    }
+    var optionProvince = {
+      tooltip: {
+        trigger: 'item',
+      },
+      title: [
+        {
+          text: '41%',
+          subtext: '四川',
+          x: '46%',
+          y: '10%',
+          textAlign: 'center',
+          itemGap: 5,
+          textStyle: {
+            color: '#fe706d',
+            fontSize: 14
+          },
+          subtextStyle: {
+            color: '#9fa0c4',
+            fontSize: '10',
+          },
+        },
+        {
+          text: '32%',
+          subtext: '北京',
+          x: '46%',
+          y: '43%',
+          itemGap: 5,
+          textAlign: 'center',
+          textStyle: {
+            color: '#9652eb',
+            fontSize: 14
+          },
+          subtextStyle: { color: '#9fa0c4', fontSize: '10' },
+        },
+        {
+          text: '19%',
+          subtext: '湖南',
+          x: '46%',
+          y: '76%',
+          itemGap: 5,
+          textAlign: 'center',
+          textStyle: {
+            color: '#46a5f2',
+            fontSize: 14
+          },
+          subtextStyle: { color: '#9fa0c4', fontSize: '10' },
+        }
+      ],
+      series: [
+        {
+          type: 'pie',
+          clockWise: false,
+          radius: [31, 26], // 饼图的半径，数组的第一项是内半径，第二项是外半径
+          center: ['50%', '16%'], // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
+          itemStyle: dataStyle,
+          hoverAnimation: false,
+          startAngle: 90,
+          label: {
+            borderRadius: '10',
+          },
+          data: [{
+            value: top1Value,
+            name: '四川',
+            tooltip: pieToolTip,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: color[0]
+                }, {
+                  offset: 1,
+                  color: color[1]
+                }])
+              }
+            }
+          },
+          {
+            value: 100,
+            name: '',
+            tooltip: {
+              show: false
+            },
+            itemStyle: placeHolderStyle
+          },
+          ]
+        },
+        {
+          type: 'pie',
+          clockWise: false,
+          radius: [31, 26],
+          center: ['50%', '50%'],
+          itemStyle: dataStyle,
+          hoverAnimation: false,
+          startAngle: 90,
+          label: {
+            borderRadius: '10',
+          },
+          data: [{
+            value: top2Value,
+            name: '北京',
+            tooltip: pieToolTip,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: color[2]
+                }, {
+                  offset: 1,
+                  color: color[3]
+                }])
+              }
+            }
+          },
+          {
+            value: 100,
+            name: '',
+            tooltip: {
+              show: false
+            },
+            itemStyle: placeHolderStyle
+          },
+          ]
+        },
+        {
+          type: 'pie',
+          clockWise: false,
+          radius: [31, 26],
+          center: ['50%', '83%'],
+          itemStyle: dataStyle,
+          hoverAnimation: false,
+          startAngle: 90,
+          label: {
+            borderRadius: '10',
+          },
+          data: [{
+            value: top3Value,
+            name: '湖南',
+            tooltip: pieToolTip,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: color[4]
+                }, {
+                  offset: 1,
+                  color: color[5]
+                }])
+              }
+            }
+          },
+          {
+            value: 100,
+            name: '',
+            tooltip: {
+              show: false
+            },
+            itemStyle: placeHolderStyle
+          },
+          ]
+        },
+      ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChartMap.setOption(optionMap);
+    myChartIncrease.setOption(optionIncrease);
+    myChartTime.setOption(optionTime);
+    myChartProvince.setOption(optionProvince);
+  </script>
+</body>
+
+</html>

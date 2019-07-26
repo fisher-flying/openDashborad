@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-环形</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script>
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;}
+	</style>
+</head>
+<body>
+	<div id="main" style="width: 295px;height:210px;"></div>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+        // 指定图表的配置项和数据
+        var xData = ['临床知识库','增值服务','慕课','教学平台','题库', '考试']
+
+        var data = [23.7, 23.4, 22.5, 26.1, 27.4, 28]
+
+        option = {
+            backgroundColor: "#1d1a35",
+            grid: {
+                borderWidth: 0,
+                top: 30,
+                left:75,
+                right:20,
+                bottom: 30,
+                textStyle: {
+                    color: "#fff"
+                }
+            },
+            yAxis: [{
+                axisLabel: {
+                    inside: false,
+                    textStyle: {
+                        color: '#a4a5c9',
+                        fontSize: '10',
+                    }
+                },
+                axisTick : {show: false},
+                axisLine: {show: false},
+                data: xData,
+            }, {
+                type: 'category',
+                axisLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    show: false
+                },
+                splitArea: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+            }],
+            xAxis: {
+                type: 'value',
+                interval: 0,
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        color: '#2f3640',
+                    }
+                },
+                splitLine: {
+                    show: false,
+                    lineStyle: {
+                        color: '#2f3640 ',
+                    }
+                },
+            },
+            series: [{
+                    name: '',
+                    type: 'bar',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            color: '#a4a5c9',
+                            fontSize: '10',
+                            formatter: '{c}%'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            show: false,
+                            color:function(idx) {
+                                console.log(idx)
+                                var color = ['#33db74','#40b3f3','#8855e6','#fe6d71','#ffa14d','#4efdd4']
+                                return color[idx.dataIndex % color.length]
+                            },
+                            barBorderRadius: 50,
+                            borderWidth: 0,
+                        },
+                        emphasis: {
+                            shadowBlur: 15,
+                            shadowColor: 'rgba(105,123, 214, 0.7)'
+                        }
+                    },
+                    zlevel: 2,
+                    barWidth: '24%',
+                    data: data,
+                },
+                {
+                    name: '',
+                    type: 'bar',
+                    yAxisIndex: 1,
+                    zlevel: 1,
+                    itemStyle: {
+                        normal: {
+                            color: '#2a234e',
+                            borderWidth: 0,
+                            shadowBlur: {
+                                shadowColor: 'rgba(255,255,255,0.31)',
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowOffsetY: 2,
+                            },
+                        }
+                    },
+                    barWidth: '24%',
+                    data: [50, 50, 50, 50, 50 ,50]
+                }
+            ]
+        }
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

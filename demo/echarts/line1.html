@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>大数据echart-折线图</title>
+	<script type="text/javascript" src="../../src/lib/echarts.common.min.js"></script>
+	<script type="text/javascript" src="../../src/lib/echarts.theme.morning.js"></script> 
+	<style>
+		body{margin:0px;padding:0px;background: #1d1a35;} 
+	</style>
+</head>
+<body>
+	<div id="main" style="width:260px;height:240px;"></div>
+	<script type="text/javascript">
+		//var wWidth = document.body.clientWidth;
+        //var myLine = document.getElementById('main');
+        //myLine.style.height = wWidth/4 + 'px'; 
+        //myLine.style.width = wWidth/4 + 'px';
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'morning');
+
+        // 指定图表的配置项和数据
+       	option = {
+		    xAxis: {
+		        type: 'category',
+		        data: ['2','4','6','8','10','12','14','16','18','20','22','24'],
+		    	axisLine:{ //去除轴线
+		            show:false
+		        },
+		    	axisTick: {//去除刻度线
+		            show: false
+		        },
+		        axisLabel: {
+                    textStyle: {
+                        color: '#a6a6cc'
+                    }
+                },
+		    },
+		    yAxis: {
+		    	axisLine:{
+		            show:false
+		        },
+		        axisTick: {
+		            show: false
+		        },
+		        axisLabel: {
+                    textStyle: {
+                        color: '#a6a6cc'
+                    }
+                },
+		    },
+		    grid: {
+		    	x:40,
+		    },
+		    series: [{
+		        data: [1000, 1500, 2000, 3000, 4500, 3800, 4800,5200,5000,4500,2500,1800],
+		        type: 'line',
+		        itemStyle: {
+		            color:'#43abf2',
+		            lineStyle:{  
+		                color:'#00FF00'  
+		            }  
+		        },
+		        areaStyle: {
+		             normal: {
+		                color: new echarts.graphic.LinearGradient(
+		                    0, 0, 0, 1,
+		                [
+		                   {offset: 0, color: '#966fc2'},
+		                    {offset: 1, color: '#1f1c39'}
+		                ])
+		            },
+		        },
+		    }]
+		};
+
+	
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
